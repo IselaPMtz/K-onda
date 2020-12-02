@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- imagen y centrar imagen -->
+
+        <ImageView
+            android:contentDescription="@null"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/k_ondapp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/main_text1"
+            android:textAlignment="center"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <!-- country picker , detecta automaticamente el pais al que pertenece nuestro numero telefonico -->
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_main_codePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_areaCodeDetectedCountry="true"
+                tools:cpp_contentColor="#fcfdfd"
+                tools:cpp_textSize="20dp"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/editText_main_phoneNumber"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:hint="@string/main_hint"
+                android:autofillHints="@string/main_hint"
+                android:inputType="phone"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_main_sendCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/main_button_text"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

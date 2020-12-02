@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "106863199266",
+    "firebase_url": "https://k-onda-da66c.firebaseio.com",
+    "project_id": "k-onda-da66c",
+    "storage_bucket": "k-onda-da66c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106863199266:android:0723f7d279c2924db6f67b",
+        "android_client_info": {
+          "package_name": "com.pipudev.k_onda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106863199266-mv9vs0jsq5tfbpas50ed1i3r538pqo7q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pipudev.k_onda",
+            "certificate_hash": "8434dcf9756fd293781e30805695cfa57ff30162"
+          }
+        },
+        {
+          "client_id": "106863199266-pioj721r23ab24q8cdln45pb97mki18h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs3aJoJrYwbEdNaYgnXlNpYaSleATGm8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106863199266-pioj721r23ab24q8cdln45pb97mki18h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
