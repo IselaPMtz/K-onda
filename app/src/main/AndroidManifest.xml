@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-    <!--android:fullBackupContent="@xml/my_backup_rules" -->
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -13,18 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Konda">
-
+        <activity android:name=".activities.OnCompleteInfoActivity"></activity>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CodeVerificationActivity"/>
-
+        <activity android:name=".activities.CodeVerificationActivity" />
     </application>
-
-
-
 
 </manifest>

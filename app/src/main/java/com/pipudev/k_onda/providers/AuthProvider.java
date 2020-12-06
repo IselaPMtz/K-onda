@@ -51,11 +51,19 @@ public class AuthProvider extends AppCompatActivity {
         try {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
             return fbAuth.signInWithCredential(credential);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
 
-
+    /**
+     * obtener los datos del usuario como UserID generado en la authentificacion
+     */
+    public String getCurrentUserID() {
+        if (fbAuth.getCurrentUser() != null) {
+            return fbAuth.getCurrentUser().getUid();
+        }else{
+            return null;
+        }
+    }
 }

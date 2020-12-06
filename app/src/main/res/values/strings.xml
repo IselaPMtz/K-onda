@@ -7,5 +7,8 @@
     <string name="code_verification_editText_hint">--- ---</string>
     <string name="code_verification_button">Iniciar sesión</string>
     <string name="code_verification_progressbar">Enviando SMS</string>
+    <string name="on_complete_info_textView">REGISTRA TU INFORMACIÓN</string>
+    <string name="on_complete_info_textInput">Nombre de usuario</string>
+    <string name="on_complete_info_button">Registrar</string>
 
 </resources>

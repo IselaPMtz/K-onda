@@ -14,13 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.pipudev.k_onda.R;
+import com.pipudev.k_onda.models.User;
 import com.pipudev.k_onda.providers.AuthProvider;
+import com.pipudev.k_onda.providers.UsersProvider;
 
 
 public class CodeVerificationActivity extends AppCompatActivity {
@@ -33,13 +36,14 @@ public class CodeVerificationActivity extends AppCompatActivity {
 
     private AuthProvider authProvider;
     private String mVerificationId;
+    private UsersProvider userProvider;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_verification);
-
         // referencia del btn en el xml al btn java class
         btnCodeVerification = findViewById(R.id.code_verification_btn_codeVerification);
         etCode = findViewById(R.id.code_verification_et_inputCode);
@@ -49,6 +53,9 @@ public class CodeVerificationActivity extends AppCompatActivity {
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         authProvider = new AuthProvider();
         authProvider.sendCodeVerificationToPhone(phoneNumber,callback);
+        userProvider = new UsersProvider();
+
+
 
         // cuando haga clic en el btn
         btnCodeVerification.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +63,10 @@ public class CodeVerificationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String code =  etCode.getText().toString();
                 if (!code.isEmpty() && code.length() >=6){
-                    Toast.makeText(CodeVerificationActivity.this, "exito en boton", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CodeVerificationActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
                     signInWithPhoneNumber(code);
                 }else{
-                    Toast.makeText(CodeVerificationActivity.this, phoneNumber, Toast.LENGTH_LONG).show();
+                    Toast.makeText(CodeVerificationActivity.this, "código erroneo", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -81,7 +88,6 @@ public class CodeVerificationActivity extends AppCompatActivity {
 
             //ocultar los controles
            hideControls();
-
             String code = phoneAuthCredential.getSmsCode();
 
             if (code != null) {
@@ -120,12 +126,24 @@ public class CodeVerificationActivity extends AppCompatActivity {
      * crea un objeto PhoneAuthCredential con el código y el ID de verificación que se pasaron a la devolución de llamada
      */
     private void signInWithPhoneNumber(String code) {
-
         authProvider.signInWithPhoneNumber(mVerificationId, code).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(CodeVerificationActivity.this, "exito", Toast.LENGTH_LONG).show();
+                    //validar al usuario en firebase
+                    User user = new User();
+                    user.setUserID(authProvider.getCurrentUserID()); //invocamos al metodo
+                    user.setPhoneNumber(phoneNumber);
+                    userProvider.createUser(user).addOnSuccessListener(new OnSuccessListener<Void>() { //Si se ha creado el usuario correctamente
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //ejectuar metodo
+                            goToOnCompleteInfoActivity();
+                        }
+                    });
+
+
+
                 } else {
                     Toast.makeText(CodeVerificationActivity.this, "error", Toast.LENGTH_LONG).show();
                 }
@@ -133,6 +151,12 @@ public class CodeVerificationActivity extends AppCompatActivity {
             }
         });
     }
+
+    private  void goToOnCompleteInfoActivity(){
+        Intent intent = new Intent(CodeVerificationActivity.this, OnCompleteInfoActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }
