@@ -41,16 +41,17 @@
 
             <!-- country picker , detecta automaticamente el pais al que pertenece nuestro numero telefonico -->
             <com.hbb20.CountryCodePicker
-                android:id="@+id/ccp_main_codePicker"
+                android:id="@+id/main_ccp_codePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ccp_areaCodeDetectedCountry="true"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_autoDetectLanguage="true"
                 tools:cpp_contentColor="#fcfdfd"
                 tools:cpp_textSize="20dp"
                 android:layout_marginTop="20dp"/>
 
             <EditText
-                android:id="@+id/editText_main_phoneNumber"
+                android:id="@+id/main_et_phoneNumber"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -60,7 +61,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_main_sendCode"
+            android:id="@+id/main_btn_sendCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"

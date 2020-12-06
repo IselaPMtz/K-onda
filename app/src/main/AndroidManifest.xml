@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pipudev.k_onda">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <!--android:fullBackupContent="@xml/my_backup_rules" -->
     <application
         android:allowBackup="false"
@@ -10,14 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Konda">
-        <activity android:name=".activities.CodeVerificationActivity"/>
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.CodeVerificationActivity"/>
+
     </application>
+
+
+
 
 </manifest>

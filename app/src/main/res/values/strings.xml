@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">K-onda</string>
-    <string name="main_text1">Ingresa tu número de teléfono. Te enviaremos un código de verifación a este número</string>
+    <string name="main_text1">Ingresa tu número de teléfono. Te enviaremos un código de verificación a este número</string>
     <string name="main_hint">Teléfono</string>
     <string name="main_button_text">ENVIAR CODIGO</string>
     <string name="code_verification_text1">Ingresa el código de 6 dígitos </string>
     <string name="code_verification_editText_hint">--- ---</string>
     <string name="code_verification_button">Iniciar sesión</string>
+    <string name="code_verification_progressbar">Enviando SMS</string>
 
 </resources>
