@@ -27,6 +27,8 @@ public class AuthProvider extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance(); //FirebaseAuth.getInstance();
     }
 
+
+
     /**
      * pasa el número de teléfono del usuario al método PhoneAuthProvider.verifyPhoneNumber para solicitar que Firebase lo verifique
      * recibe 2 parametros una variable string y una de tipo phoneAuth

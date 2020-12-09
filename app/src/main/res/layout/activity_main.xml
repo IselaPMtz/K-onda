@@ -15,14 +15,14 @@
         <!-- imagen y centrar imagen -->
 
         <ImageView
-            android:contentDescription="@null"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:contentDescription="@null"
             android:src="@drawable/k_ondapp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_marginLeft="15dp"
@@ -35,29 +35,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
 
             <!-- country picker , detecta automaticamente el pais al que pertenece nuestro numero telefonico -->
             <com.hbb20.CountryCodePicker
                 android:id="@+id/main_ccp_codePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_autoDetectLanguage="true"
                 tools:cpp_contentColor="#fcfdfd"
-                tools:cpp_textSize="20dp"
-                android:layout_marginTop="20dp"/>
+                tools:cpp_textSize="20dp" />
 
             <EditText
                 android:id="@+id/main_et_phoneNumber"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="@string/main_hint"
                 android:autofillHints="@string/main_hint"
-                android:inputType="phone"/>
+                android:hint="@string/main_hint"
+                android:inputType="phone" />
         </LinearLayout>
 
         <Button

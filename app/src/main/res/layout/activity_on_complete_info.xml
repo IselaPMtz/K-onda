@@ -14,7 +14,7 @@
 
         <com.github.florent37.shapeofview.shapes.ArcView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:elevation="4dp"
             app:shape_arc_cropDirection="outside"
             app:shape_arc_height="20dp"
@@ -29,31 +29,57 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
                 android:contentDescription="@null"
+                android:textAlignment="center"
+                android:textSize="25sp"
                 android:text="@string/on_complete_info_textView"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="30dp"/>
+                android:textStyle="bold" />
 
         </com.github.florent37.shapeofview.shapes.ArcView>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/on_complete_info_civ_picture"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_gravity="left"
+                android:layout_marginTop="120dp"
+                android:src="@drawable/ic_person_circle"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="22sp"
+                android:text="@string/on_complete_info_textView_Picture" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginTop="100dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/on_complete_info_et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/on_complete_info_textInput" />
@@ -62,28 +88,20 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_person_pin"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="5dp"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="110dp"/>
 
 
     <Button
+        android:id="@+id/on_complete_info_btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
         android:background="@drawable/round_button"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/on_complete_info_button"
-        android:textColor="@color/white"
-        android:layout_gravity="bottom"
-        android:layout_margin="20dp"/>
-
-
+        android:textColor="@color/white" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

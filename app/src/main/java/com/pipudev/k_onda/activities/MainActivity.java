@@ -2,10 +2,14 @@ package com.pipudev.k_onda.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hbb20.CountryCodePicker;
@@ -16,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnsendCodeVerification;
     private EditText txtPhone;
     private CountryCodePicker ccPicker;
+    private TextView tvSms;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
         btnsendCodeVerification = findViewById(R.id.main_btn_sendCode);
         txtPhone = findViewById(R.id.main_et_phoneNumber);
         ccPicker = findViewById(R.id.main_ccp_codePicker);
-
         // cuando haga clic en el btn
         btnsendCodeVerification.setOnClickListener(v -> getCountryCodePhoneNumber());
 
     }
 
     private void getCountryCodePhoneNumber() {
+
 
         if (!txtPhone.getText().toString().isEmpty()) {
             goToCodeVerificationActivity(ccPicker.getSelectedCountryCodeWithPlus() + txtPhone.getText().toString());
@@ -43,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void goToCodeVerificationActivity(String phoneNumber) {
         // creamos el intent para acceder a la otra actividad
         Intent intent = new Intent(MainActivity.this, CodeVerificationActivity.class);
         intent.putExtra("phoneNumber", phoneNumber);
         startActivity(intent);
     }
+
 
 }

@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">K-onda</string>
-    <string name="main_text1">Ingresa tu número de teléfono. Te enviaremos un código de verificación a este número</string>
+    <string name="main_text1">Se enviara un mensaje SMS para verificar tu número de telefono
+        Confirma tu código de país e introduce tu número de teléfono </string>
     <string name="main_hint">Teléfono</string>
     <string name="main_button_text">ENVIAR CODIGO</string>
-    <string name="code_verification_text1">Ingresa el código de 6 dígitos </string>
-    <string name="code_verification_editText_hint">--- ---</string>
-    <string name="code_verification_button">Iniciar sesión</string>
+    <string name="code_verification_textView_title">Verificación por SMS</string>
+    <string name="code_verification_text1">Esperando la detección automática de un SMS - de no ser así Ingresa el código de 6 dígitos </string>
+    <string name="code_verification_editText_hint">------</string>
+    <string name="code_verification_button">Verificar</string>
     <string name="code_verification_progressbar">Enviando SMS</string>
-    <string name="on_complete_info_textView">REGISTRA TU INFORMACIÓN</string>
+    <string name="code_verification_textView_sms">Validando código</string>
+    <string name="on_complete_info_textView">Editar Perfil</string>
+    <string name="on_complete_info_textView_Picture">Añade una foto (opcional)</string>
     <string name="on_complete_info_textInput">Nombre de usuario</string>
     <string name="on_complete_info_button">Registrar</string>
 
