@@ -11,7 +11,7 @@
     <string name="code_verification_progressbar">Enviando SMS</string>
     <string name="code_verification_textView_sms">Validando código</string>
     <string name="on_complete_info_textView">Editar Perfil</string>
-    <string name="on_complete_info_textView_Picture">Añade una foto (opcional)</string>
+    <string name="on_complete_info_textView_Picture">Añade una foto </string>
     <string name="on_complete_info_textInput">Nombre de usuario</string>
     <string name="on_complete_info_button">Registrar</string>
 

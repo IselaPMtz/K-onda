@@ -67,7 +67,12 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
         btnRegisterUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUserProfileData();
+                if(!ietUsername.getText().toString().isEmpty() && imageFile!=null){
+                    setUserProfileData();
+                }else{
+                    Toast.makeText(OnCompleteInfoActivity.this, "Seleccione una imagen e ingrese un nombre de usuario ", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
