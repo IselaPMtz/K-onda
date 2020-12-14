@@ -14,5 +14,24 @@
     <string name="on_complete_info_textView_Picture">Añade una foto </string>
     <string name="on_complete_info_textInput">Nombre de usuario</string>
     <string name="on_complete_info_button">Registrar</string>
+    <string name="home_button_logOut">Cerrar Sesión</string>
+    <string name="home_materialSearchBar">Buscar..</string>
+    <string name="home_placeholder">K-Onda</string>
+    <string name="menu_item_logOut">Cerrar Sesión</string>
+    <string name="menu_item_profile">Perfil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello Chat fragment</string>
+    <string name="hello_blank_fragment2">Hello Contact fragment</string>
+    <string name="hello_blank_fragment3">Hello Status fragment</string>
+    <string name="profile_tv_name">Nombre</string>
+    <string name="profile_tv_username">Nombre de Usuario</string>
+    <string name="profile_tv_username_description">Este nombre será visible para tus contactos de K-onda</string>
+    <string name="profile_tv_info_user">Info</string>
+    <string name="profile_tv_info_user_description">Estoy usando K-onda</string>
+    <string name="profile_tv_phone">Teléfono</string>
+    <string name="profile_tv_phone_description">+00000000000</string>
+    <string name="bottom_sheet_choose_image_tv1">Foto de perfil</string>
+    <string name="bottom_sheet_choose_image_tv2">Eliminar Foto</string>
+    <string name="bottom_sheet_choose_image_tv3">Galería</string>
 
 </resources>

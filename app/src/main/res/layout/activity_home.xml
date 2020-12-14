@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HomeActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+            <!-- Barra de busqueda estilo whatsapp 3rd party library -->
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/home_searchBar"
+                style="@style/MaterialSearchBarLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@+id/linearLayout"
+                app:layout_anchorGravity="center"
+                app:mt_backIconTint="@color/searchBarBackIconTintColor"
+                app:mt_hint="@string/home_materialSearchBar"
+                app:mt_hintColor="@color/white"
+                app:mt_leftTextSelectorTint="@color/searchBarBackIconTintColor"
+                app:mt_menuIconTint="@color/white"
+                app:mt_placeholder="@string/home_placeholder"
+                app:mt_placeholderColor="@color/white"
+                app:mt_searchBarColor="@color/colorPrimary"
+                app:mt_searchIconTint="@color/white"
+                app:mt_speechMode="false"
+                app:mt_textColor="@color/white" />
+
+        </LinearLayout>
+
+        <!-- Para la seleccion de pestaña en la actividad-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/home_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/aqua" />
+
+        <!-- Nos permite mostrar Fragments dentro de la actividad -->
+        <!-- Los fragments son vistas que viven dentro de una actividad como cada ventana de chat en whatsapp-->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/home_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" /> <!-- Esta linea es para que solo empieze y abarque el espacio en color blanco-->
+
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

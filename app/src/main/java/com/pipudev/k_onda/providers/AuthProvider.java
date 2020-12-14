@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -27,6 +28,19 @@ public class AuthProvider extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance(); //FirebaseAuth.getInstance();
     }
 
+    /**
+     * Si el usuario esta en sesion nos regresa el objeto de lo contrario regresa null
+     */
+    public FirebaseUser getSessionUser() {
+        return fbAuth.getCurrentUser();
+    }
+
+    /**
+     * Cerrar sesion del usuario
+     */
+    public void signOutSessionUser() {
+        fbAuth.signOut();
+    }
 
 
     /**
@@ -64,7 +78,7 @@ public class AuthProvider extends AppCompatActivity {
     public String getCurrentUserID() {
         if (fbAuth.getCurrentUser() != null) {
             return fbAuth.getCurrentUser().getUid();
-        }else{
+        } else {
             return null;
         }
     }

@@ -55,7 +55,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="@string/code_verification_text1"
                 android:textAlignment="center"
-                android:textColor="@color/teal_700"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="22sp" />
 
             <EditText

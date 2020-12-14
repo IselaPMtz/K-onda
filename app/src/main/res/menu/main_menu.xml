@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Clase donde se agregan los items(submenu)-->
+    <item
+        android:id="@+id/item_profile"
+        android:title="@string/menu_item_profile"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_signOut"
+        android:title="@string/menu_item_logOut"
+        app:showAsAction="never" />
+
+</menu>

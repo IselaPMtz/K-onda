@@ -108,7 +108,6 @@ public class CodeVerificationActivity extends AppCompatActivity {
                     pgbar.setVisibility(View.VISIBLE);
                     tvSms.setText("Validando código");
                     tvSms.setVisibility(View.VISIBLE);
-                    Toast.makeText(CodeVerificationActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
                     signInWithPhoneNumber(code);
                 } else {
                     Toast.makeText(CodeVerificationActivity.this, "código erroneo", Toast.LENGTH_LONG).show();
@@ -144,26 +143,37 @@ public class CodeVerificationActivity extends AppCompatActivity {
                     user.setUserID(authProvider.getCurrentUserID()); //id en firebase
                     user.setPhoneNumber(phoneNumber);
 
-                    //validar al usuario en firebase si ya esta registrado previamente / .get() obtiene informacion de firebase
-                    userProvider.verifyUserOnFirebase(authProvider.getCurrentUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    //validar el telefono del usuario en firebase si ya esta registrado previamente / .get() obtiene informacion de firebase
+                    //los campos userName e userImage estan nullos por el momento en Firebase
+                    userProvider.getUserOnFirebase(authProvider.getCurrentUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) { //hace referencia al document en firebase database
-                            if (!documentSnapshot.exists()) { //si no existe el usuario procedemos a crearlo
+                            if (!documentSnapshot.exists()) { //si no existe el telefono y el id de usuario en firebase procedemos a crearlo
                                 userProvider.createUser(user).addOnSuccessListener(new OnSuccessListener<Void>() { //Si se ha creado el usuario correctamente
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        //procedems a capturar los datos
-                                        goToOnCompleteInfoActivity();
+                                        goToOnCompleteInfoActivity(); //procedems a capturar los datos restantes como la imagen y el userName
                                     }
                                 });
+                            } else { //Si existe el telefono y el id ya registrados en firebase
+                                //verificamos que el documento (firebase) contenga los campos userName e userImage en null o en blanco de ser asi
+                                // se procedera a registrar ambos campos
 
-                            } else { //actualiza al usuario en firebase
-                                goToOnCompleteInfoActivity();
+                                if (documentSnapshot.contains("userName") && documentSnapshot.contains("userImage")) { //si los contiene pero estan null
+
+                                    if ((documentSnapshot.getString("userName") == null && documentSnapshot.getString("userImage") == null) ||
+                                            (documentSnapshot.getString("userName").isEmpty() && documentSnapshot.getString("userImage").isEmpty())) {
+
+                                        goToOnCompleteInfoActivity(); //procedems a capturar los datos faltantes
+                                    } else { //si ya contienen datos userName y userImage
+                                        goToHomeActivity();//nos manda a la pantalla principal
+                                    }
+                                }else{ //Si no estan userName e userImage en el documment (firebase) aun
+                                    goToOnCompleteInfoActivity(); //procedems a capturar los datos faltantes
+                                }
                             }
                         }
                     });
-
-
                 } else { //Si fallo en iniciar sesion con telefono
                     Toast.makeText(CodeVerificationActivity.this, "error", Toast.LENGTH_LONG).show();
                 }
@@ -174,8 +184,18 @@ public class CodeVerificationActivity extends AppCompatActivity {
 
     private void goToOnCompleteInfoActivity() {
         Intent intent = new Intent(CodeVerificationActivity.this, OnCompleteInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
+    /**
+     * Envia a la Activity(Pantalla) Principal de la app y elimina el historial de activities anteriores(task)
+     * para que al dar boton regresar no regrese a la verificacion del codigo ni a perdir el numero telefonico
+     */
+    private void goToHomeActivity() {
+        Intent intent = new Intent(CodeVerificationActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 }
