@@ -37,12 +37,8 @@ public class BottomSheetChooseImage extends BottomSheetDialogFragment {
     private UsersProvider usersProvider;
     private String imageProfileUrl;
 
-    public void setImageProfileUrl(String imageProfileUrl) {
+    public void setImageProfileUrl(String imageProfileUrl) { //proveniente de profileActivity
         this.imageProfileUrl = imageProfileUrl;
-    }
-
-    public String getImageProfileUrl() {
-        return imageProfileUrl;
     }
 
 
@@ -110,10 +106,8 @@ public class BottomSheetChooseImage extends BottomSheetDialogFragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if (task2.isSuccessful()) {
-                                    //establecer la imagen por defecto
-                                    //accedemos al metodo publico en profileActivity desde este fragmento
-                                    ((ProfileActivity) getActivity()).setDefaultImage();
                                     Toast.makeText(getContext(), "La imagen se elimino correctamente", Toast.LENGTH_SHORT).show();
+                                    imageProfileUrl = null;
                                 } else {
                                     Toast.makeText(getContext(), "No se pudo elimnar la imagen", Toast.LENGTH_SHORT).show();
                                 }

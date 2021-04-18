@@ -15,12 +15,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bottom_sheet_change_username_tv"
+            android:text="@string/bottom_sheet_change_info_tv"
             android:textColor="@color/black"
             android:layout_marginLeft="5dp"/>
 
         <EditText
-            android:id="@+id/bottom_sheet_change_username_et_username"
+            android:id="@+id/bottom_sheet_change_info_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -33,7 +33,7 @@
 
 
             <Button
-                android:id="@+id/bottom_sheet_change_username_btn_cancel"
+                android:id="@+id/bottom_sheet_change_info_btn_cancel"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:textColor="@color/aqua"/>
 
             <Button
-                android:id="@+id/bottom_sheet_change_username_btn_save"
+                android:id="@+id/bottom_sheet_change_info_btn_save"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

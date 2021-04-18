@@ -37,10 +37,6 @@ public class ImageProvider {
         byte[] imageByte = CompressorBitmapImage.getImage(context, file.getPath(), 500, 500);
         //crear una referencia para una ubicación de un nivel más bajo en el árbol (storage fireabse) -ahora apunta a la imagen
         //cuando se registra el usuario por primera vez se crea una carpeta ese usuario
-
-        //verificar si existe la carpeta creada raiz(images)
-        //verificar si existe la carpeta para el usuario en cuestion
-        //verificar si la imagen ya existe en esa carpeta si es asi reemplazar la imagen si no crearla
         storageP = storage.child("images/" + userID + "/" + "profile/" + "imageProfile.jpg");
         return task = storageP.putBytes(imageByte);
     }

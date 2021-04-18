@@ -29,11 +29,11 @@ public class PixUtils extends AppCompatActivity {
 
         optionImage = Options.init()
                 .setRequestCode(100)                                           //Request code for activity results
-                .setCount(1)                                                   //Number of images to restict selection count
+                .setCount(3)                                                   //Number of images to restict selection count
                 .setFrontfacing(false)                                         //Front Facing camera on start
                 .setPreSelectedUrls(aReturnValue)                               //Pre selected Image Urls
                 .setSpanCount(4)                                               //Span count for gallery min 1 & max 5
-                .setExcludeVideos(false)                                       //Option to exclude videos
+                .setMode(Options.Mode.Picture)                                     //Option to exclude videos
                 .setVideoDurationLimitinSeconds(0)                            //Duration for video recording
                 .setScreenOrientation(Options.SCREEN_ORIENTATION_PORTRAIT)     //Orientaion
                 .setPath("/pix/images");                                    //Custom Path For media Storage

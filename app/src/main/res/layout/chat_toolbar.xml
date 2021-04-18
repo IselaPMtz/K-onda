@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_arrow_back"
+        android:id="@+id/chat_toolbar_img_arrowback"
+        android:layout_marginTop="7dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_person_circle"
+        android:id="@+id/chat_toolbar_civ_img_user"
+        app:civ_circle_background_color="@color/white"
+        android:layout_toRightOf="@id/chat_toolbar_img_arrowback"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_toolbar_tv_username"
+        android:layout_toRightOf="@id/chat_toolbar_civ_img_user"
+        android:text="@string/char_toolbar_tv_username"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:maxLines="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_toolbar_tv_useronline"
+        android:layout_toRightOf="@id/chat_toolbar_civ_img_user"
+        android:layout_below="@id/chat_toolbar_tv_username"
+        android:text="@string/char_toolbar_tv_useronline"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:maxLines="1"/>
+
+
+
+
+</RelativeLayout>

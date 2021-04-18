@@ -3,64 +3,64 @@ package com.pipudev.k_onda.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.Query;
+import com.pipudev.k_onda.Adapters.ContactsAdapter;
 import com.pipudev.k_onda.R;
+import com.pipudev.k_onda.models.User;
+import com.pipudev.k_onda.providers.UsersProvider;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ContactsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContactsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View view;
+    private RecyclerView recyclerViewContacts;
+    private ContactsAdapter contactsAdapter;
+    private UsersProvider usersProvider;
 
     public ContactsFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ContactsFragment newInstance(String param1, String param2) {
-        ContactsFragment fragment = new ContactsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contacts, container, false);
+        view =  inflater.inflate(R.layout.fragment_contacts, container, false);
+        recyclerViewContacts = view.findViewById(R.id.fragment_contacts_recyclerViewContacts);
+        usersProvider = new UsersProvider();
+        //para que nuestros elementos (fragmentos) se posicionen uno debajo del otro
+        LinearLayoutManager linearLayoutmanager = new LinearLayoutManager(getContext());
+        recyclerViewContacts.setLayoutManager(linearLayoutmanager);
+        return view;
+    }
+
+    //para poder usar Firebase Ui (permite listar los datos(colecciones) de cloud firebase) es necesario sobreescribir estos metodos propios de el
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //hacer la consulta a la bd para obtener las colecciones de usuarios
+        Query qr = usersProvider.getAllUsersByName();
+        // se usa RecyclerView para poder listar las colecciones y se necesita especificar el modelo a usar en este caso seria User
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<User>().setQuery(qr,User.class).build();
+        contactsAdapter = new ContactsAdapter(options,getContext());//creamos el adaptador para poder mostrar los componentes del xml
+        recyclerViewContacts.setAdapter(contactsAdapter);
+        //escuche en tiempo real los cambios en la BD
+        contactsAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //deje de escuchar los cambios en la bd
+        contactsAdapter.stopListening();
     }
 }

@@ -74,10 +74,11 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
         btnRegisterUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ietUsername.getText().toString().isEmpty() && imageFile != null) {
+                //&& imageFile != null
+                if (!ietUsername.getText().toString().isEmpty()) {
                     setUserProfileData();
                 } else {
-                    Toast.makeText(OnCompleteInfoActivity.this, "Seleccione una imagen e ingrese un nombre de usuario ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(OnCompleteInfoActivity.this, "Ingrese un nombre de usuario ", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -93,7 +94,7 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo propio de la liberia de github 3r party para obtener los permisos
+     * Metodo propio de la liberia de github 3r party
      * Se ejecuta cuando el usuario elige una imagen
      */
     @Override
@@ -131,8 +132,6 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
      * Guarda la imagen a firebase
      */
     private void setUserProfileData() {
-
-
         //mostramos el dialog que nos indique que se esta guardando la imagen
         pgDialog = new ProgressDialog(OnCompleteInfoActivity.this); //dialog que mostrara cuando se este guardando una imagen
         pgDialog.setTitle("Espere un momento porfavor");
@@ -141,8 +140,6 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
 
         //obtenemos el ID del usuario
         String userID = authProvider.getCurrentUserID();
-        //user.setUserID(authProvider.getCurrentUserID());
-
         //envia el contexto y la imagen seleccionada
         imageProvider.saveImageToStorage(OnCompleteInfoActivity.this, userID, imageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -151,7 +148,10 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
                     imageProvider.getImageUrlFromStorage(userID).addOnSuccessListener(new OnSuccessListener<Uri>() { //obtenemos la direccion de la imagen
                         @Override
                         public void onSuccess(Uri uri) { //si se pudo obtener la url de la imagen
-                            updateUserInfo(uri.toString());//actualizamos la informacion en la base de datos
+                            user.setUserID(userID);
+                            user.setUserImage(uri.toString());
+                            user.setUserName(ietUsername.getText().toString());
+                            updateUserInfo(user);//actualizamos la informacion en la base de datos
                         }
                     });
                 } else {
@@ -166,11 +166,8 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
      * almacena el resto de la informacion del usuario en firebase(actualizar datos) ya que
      * el id y el phonenumber ya se regsitraron al iniciar por primera vez la app
      */
-    private void updateUserInfo(String imageUrl) {
+    private void updateUserInfo(User user) {
 
-        if (!ietUsername.getText().toString().isEmpty()) { //si no esta vacio el textinput
-            user.setUserName(ietUsername.getText().toString());
-            user.setUserImage(imageUrl);
             usersProvider.updateUser(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) { //Si se actualizo correctamente en firebase
@@ -180,9 +177,6 @@ public class OnCompleteInfoActivity extends AppCompatActivity {
 
                 }
             });
-
-        }
-
     }
 
     /**

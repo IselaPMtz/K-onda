@@ -8,10 +8,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.pix.Pix;
@@ -21,8 +23,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.UploadTask;
 import com.pipudev.k_onda.R;
+import com.pipudev.k_onda.fragments.BottomSheetChangeInfo;
+import com.pipudev.k_onda.fragments.BottomSheetChangeUsername;
 import com.pipudev.k_onda.fragments.BottomSheetChooseImage;
 import com.pipudev.k_onda.models.User;
 import com.pipudev.k_onda.providers.AuthProvider;
@@ -50,7 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<String> aReturnValue = new ArrayList<>();
     private File imageFile;
     private ImageProvider imageProvider;
-    private String getLastImageProfileFromStorage;
+    private ImageView ivEditUsername, ivEditInfo;
+    private ListenerRegistration listenerRegistration; //escuchar los eventos en tiempo real
 
 
     @Override
@@ -65,11 +73,14 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhoneNumber = findViewById(R.id.profile_tv_phonenumber);
         civImageProfile = findViewById(R.id.profile_ci_imageprofile);
         btnChooseImagen = findViewById(R.id.profile_chooseImage);
+        ivEditUsername = findViewById(R.id.profile_iv_icon_edit_username);
+        ivEditInfo = findViewById(R.id.profile_iv_icon_edit_info);
 
         usersProvider = new UsersProvider();
         authProvider = new AuthProvider();
         imageProvider = new ImageProvider(); //clase para conexion a storage
 
+        getUserInfoFromFirebase(); //obtenemos la info de perfil del usuario
 
         /**Boton para editar foto de perfil*/
         btnChooseImagen.setOnClickListener(new View.OnClickListener() {
@@ -79,44 +90,70 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        getUserInfoFromFirebase();
+        /**Boton para editar foto de perfil*/
+        ivEditUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (user != null) { //si ya se cargaron los datos
+                    showBottomSheetChangeUsername();
+                }
+            }
+        });
+
+        /**Boton para editar foto de perfil*/
+        ivEditInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (user != null) { //si ya se cargaron los datos
+                    showBottomSheetChangeInfo();
+                }
+            }
+        });
+
 
     }
 
     /**
-     * Al abrir la actividad se carga la informacion
+     * Al abrir la actividad Profile obtenemos en timepo real la informacion
      */
     private void getUserInfoFromFirebase() {
         //obtenemos el user ID y get para obtener su informacion
+        //hay que creer una variable para saber cuando termina el listener de tiempo real y ser removido para que no prosiga en las demas actividades
 
-        usersProvider.getUserOnFirebase(authProvider.getCurrentUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+       listenerRegistration = usersProvider.getUserOnFirebase(authProvider.getCurrentUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) { //Si el documento del usuario existe , el usuario si esta registrado y procedemos a obtener la informacion de el
-                    user = documentSnapshot.toObject(User.class); //Obtenemos todos los valores(campos) del document de firebase y lo convertimos a tipo User (mismos campos)
-                    if (user != null) {
-                        tvUserName.setText(user.getUserName());
-                        tvPhoneNumber.setText(user.getPhoneNumber());
-                        if (user.getUserImage() != null && !user.getUserImage().isEmpty()) {
-                            Picasso.get().load(user.getUserImage()).into(civImageProfile); //obtenemos la imagen desde firebase y la mostramos en el circleImageView
-                        } else if (user.getUserImage()== null){
-                            user.setUserImage(null);//si en firebase el campo userImage esta vacio (null) por que elimino la foto de perfil
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.exists()) { //Si el documento del usuario existe , el usuario si esta registrado y procedemos a obtener la informacion de el
+                        user = documentSnapshot.toObject(User.class); //Obtenemos todos los valores(campos) del document de firebase y lo convertimos a tipo User (mismos campos)
+                        if (user != null) {
+                            tvUserName.setText(user.getUserName());
+                            tvPhoneNumber.setText(user.getPhoneNumber());
+                            if (user.getUserInfo()!=null && !user.getUserInfo().isEmpty()){ //obtenemos la info del usuario
+                                tvInfo.setText(user.getUserInfo());
+                            }
+                            if (user.getUserImage() != null && !user.getUserImage().isEmpty()) {
+                                Picasso.get().load(user.getUserImage()).into(civImageProfile); //obtenemos la imagen desde firebase y la mostramos en el circleImageView
+                            } else if (user.getUserImage() == null) {
+                                setDefaultImage();
+                                user.setUserImage(null);//si en firebase el campo userImage esta vacio (null) por que elimino la foto de perfil
+                            }
+
                         }
-
                     }
-                    //
-
                 }
-
             }
         });
+
     }
 
-    /**
-     * Imagen por defecto
-     */
-    public void setDefaultImage() {
-        civImageProfile.setImageResource(R.drawable.ic_person_white);
+    /**Destruir la actividad*/
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (listenerRegistration!= null){ //si se creo el listener de firebase tiempo real
+            listenerRegistration.remove(); //removerlo salir de la actividad
+        }
     }
 
     /**
@@ -124,12 +161,18 @@ public class ProfileActivity extends AppCompatActivity {
      */
     public void setOptionsImage() {
         Pix.start(ProfileActivity.this, pixUtils.setOptionsImage());
-        //setUserImageProfile();
     }
 
     /**
-     * Metodo propio de la liberia de github 3r party para obtener los permisos
+     * Imagen por defecto
+     */
+    private void setDefaultImage() {
+        civImageProfile.setImageResource(R.drawable.ic_person_white);
+    }
+
+    /**
      * Se ejecuta automaticamente cuando el usuario elige una imagen
+     * metodo propio de la 3rd party library
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -137,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             aReturnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
             imageFile = new File(aReturnValue.get(0));//obtener la imagen seleccionada
-            Toast.makeText(ProfileActivity.this, "Si entra", Toast.LENGTH_LONG).show();
+            //Toast.makeText(ProfileActivity.this, "Si entra", Toast.LENGTH_LONG).show();
             if (imageFile != null) {
                 civImageProfile.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));//establecer la imagen en el control ImageView
                 setUserImageProfile();
@@ -181,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) { //si se pudo obtener la url de la imagen
                             user.setUserImage(uri.toString());
-                            usersProvider.updateUser(user);//actualizar foto de perfil de usuario en la base de datos de firebase
+                            usersProvider.updateUserImage(user);//actualizar foto de perfil de usuario en la base de datos de firebase
                         }
                     });
                 } else {
@@ -192,7 +235,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
-     * Muestra el fragmento creado en la actividad
+     * Muestra el fragmento creado en la actividad al hacer clic en editar imagen
      */
     private void showBottomSheetChooseImage() {
         BottomSheetChooseImage bottomSheetChooseImage = new BottomSheetChooseImage();
@@ -203,5 +246,35 @@ public class ProfileActivity extends AppCompatActivity {
         bottomSheetChooseImage.show(getSupportFragmentManager(), bottomSheetChooseImage.getTag());
 
     }
+
+    /**
+     * Muestra el fragmento creado en la actividad al hacer clic en editar Username
+     */
+    private void showBottomSheetChangeUsername() {
+        BottomSheetChangeUsername bottomSheetChangeUsername = new BottomSheetChangeUsername();
+        //obtenemos el nombre de usuario para proceder a modificarla
+        //!tvUserName.getText().toString().isEmpty()
+        if (user.getUserName() != null && !user.getUserName().isEmpty()) { //si ya tiene un username
+            bottomSheetChangeUsername.setCurrentUsername(user.getUserName());//tipo String
+        }
+        bottomSheetChangeUsername.show(getSupportFragmentManager(), bottomSheetChangeUsername.getTag());
+
+    }
+
+    /**
+     * Muestra el fragmento creado en la actividad al hacer clic en editar Info
+     */
+    private void showBottomSheetChangeInfo() {
+        BottomSheetChangeInfo bottomSheetChangeInfo = new BottomSheetChangeInfo();
+        //obtenemos el nombre de usuario para proceder a modificarla
+        //!tvUserName.getText().toString().isEmpty()
+        if (user.getUserInfo() != null && !user.getUserInfo().isEmpty()) { //si ya tiene un username
+            bottomSheetChangeInfo.setCurrentInfo(user.getUserInfo());//tipo String
+        }
+        bottomSheetChangeInfo.show(getSupportFragmentManager(), bottomSheetChangeInfo.getTag());
+
+    }
+
+
 
 }

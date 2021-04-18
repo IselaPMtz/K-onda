@@ -33,5 +33,19 @@
     <string name="bottom_sheet_choose_image_tv1">Foto de perfil</string>
     <string name="bottom_sheet_choose_image_tv2">Eliminar Foto</string>
     <string name="bottom_sheet_choose_image_tv3">Galería</string>
+    <string name="bottom_sheet_change_username_tv">Nombre</string>
+    <string name="bottom_sheet_change_username_btn_cancel">Cancelar</string>
+    <string name="bottom_sheet_change_username_btn_save">Guardar</string>
+    <string name="bottom_sheet_change_info_tv">Info</string>
+    <string name="bottom_sheet_change_info_btn_cancel">Cancelar</string>
+    <string name="bottom_sheet_change_info_btn_save">Guardar</string>
+    <string name="cardview_contacts_username">Nombre de usuario</string>
+    <string name="cardview_contacts_userstatus">Estado...</string>
+    <string name="chat_et_message">Escribe un mensaje</string>
+    <string name="char_toolbar_tv_username">Nombre de usuario</string>
+    <string name="char_toolbar_tv_useronline"></string>
+    <string name="cardview_chats_username">Nombre de usuario</string>
+    <string name="cardview_chats_timestamp">6:00 pm</string>
+    <string name="cardview_chats_userLastMsg">Ultimo mensaje...</string>
 
 </resources>

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/bottom_sheet_choose_image_tv1"
             android:textColor="@color/black"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -30,7 +30,7 @@
                 android:id="@+id/bottom_sheet_choose_image_ly_deleteImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -38,21 +38,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
-                    android:src="@drawable/ic_delete_white" />
+                    android:src="@drawable/ic_delete_white"
+                    android:contentDescription="@null" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/bottom_sheet_choose_image_tv2"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bottom_sheet_choose_image_ly_imageGalery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -60,14 +61,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/purple"
-                    android:src="@drawable/ic__image_white" />
+                    android:src="@drawable/ic__image_white"
+                    android:contentDescription="@null"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/bottom_sheet_choose_image_tv3"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 

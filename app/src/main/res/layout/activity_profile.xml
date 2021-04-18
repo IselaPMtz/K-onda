@@ -90,6 +90,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/profile_iv_icon_edit_username"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
@@ -142,6 +143,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/profile_iv_icon_edit_info"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"

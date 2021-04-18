@@ -10,7 +10,18 @@ public class User {
     private String userName;
     private String phoneNumber;
     private String userImage;
+    private String userInfo;
 
+    public User() {
+    }
+
+    public User(String userID, String userName, String phoneNumber, String userImage, String userInfo) {
+        this.userID = userID;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.userImage = userImage;
+        this.userInfo = userInfo;
+    }
 
     public String getUserID() {
         return userID;
@@ -42,5 +53,13 @@ public class User {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public String getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(String userInfo) {
+        this.userInfo = userInfo;
     }
 }

@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ContactsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment2" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <!-- nos permite listar el array de los fragmentos  -->
+       <androidx.recyclerview.widget.RecyclerView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:id="@+id/fragment_contacts_recyclerViewContacts"/>
+
+
+   </LinearLayout>
+
 
 </FrameLayout>

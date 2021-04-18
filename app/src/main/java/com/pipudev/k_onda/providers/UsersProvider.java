@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.pipudev.k_onda.models.User;
 
 import java.util.HashMap;
@@ -26,10 +27,17 @@ public class UsersProvider {
     }
 
     /**
-     * verificar si al iniciar la app el usuario en cuestion ya esta registrado o no
+     * obtiene todos la coleccion del usuario
      */
     public DocumentReference getUserOnFirebase(String userID) {
         return fbCollection.document(userID);
+    }
+
+    /**
+     * metodo usada en ContactsFragment , nos retorna un objeto de tipo query
+     */
+    public Query getAllUsersByName() {
+    return fbCollection.orderBy("userName");
     }
 
 
@@ -42,7 +50,8 @@ public class UsersProvider {
     }
 
     /**
-     * actualiza los datos del usuario en firebase
+     * actualiza los datos del usuario en firebase en la actividad OnCompleteInfoActivity
+     * la primera vez que se registra el usuario
      */
     public Task<Void> updateUser(User user) {
         //pasamos las propiedades de user como un map a firebase
@@ -55,13 +64,12 @@ public class UsersProvider {
     /**
      * establece la imagen del usuario en la database firebase
      */
-    public Task<Void> updateUserImage(User user) {
+    public void updateUserImage(User user) {
         //pasamos las propiedades de user como un map a firebase
         Map<String, Object> map = new HashMap<>();
         map.put("userImage", user.getUserImage());
-        return fbCollection.document(user.getUserID()).update(map);//actualizamos la imagen en firebase Database
+        fbCollection.document(user.getUserID()).update(map);//actualizamos la imagen en firebase Database
     }
-
 
     /**
      * establece la imagen del usuario en Null en la database firebase
@@ -73,5 +81,24 @@ public class UsersProvider {
         return fbCollection.document(userID).update(map);//actualizamos la imagen en firebase Database
     }
 
+    /**
+     * establece el userName del usuario en la database firebase
+     */
+    public Task<Void> updateUserName(String userID, String newUserName) {
+        //pasamos las propiedades de user como un map a firebase
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName", newUserName);
+        return fbCollection.document(userID).update(map);//actualizamos la imagen en firebase Database
+    }
+
+    /**
+     * establece el Info del usuario en la database firebase
+     */
+    public Task<Void> updateInfo(String userID, String newInfo) {
+        //pasamos las propiedades de user como un map a firebase
+        Map<String, Object> map = new HashMap<>();
+        map.put("userInfo", newInfo);
+        return fbCollection.document(userID).update(map);//actualizamos la imagen en firebase Database
+    }
 
 }

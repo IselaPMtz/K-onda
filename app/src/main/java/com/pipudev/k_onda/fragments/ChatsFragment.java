@@ -3,64 +3,91 @@ package com.pipudev.k_onda.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.OAuthProvider;
+import com.google.firebase.firestore.Query;
+import com.pipudev.k_onda.Adapters.ChatsAdapter;
+import com.pipudev.k_onda.Adapters.ContactsAdapter;
 import com.pipudev.k_onda.R;
+import com.pipudev.k_onda.models.Chat;
+import com.pipudev.k_onda.models.User;
+import com.pipudev.k_onda.providers.AuthProvider;
+import com.pipudev.k_onda.providers.ChatsProvider;
+import com.pipudev.k_onda.providers.UsersProvider;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChatsFragment#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
 public class ChatsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View view;
+    private RecyclerView recyclerViewChats;
+    private ChatsAdapter chatsAdapter;
+    private ChatsProvider chatsProvider;
+    private AuthProvider authProvider;
 
     public ChatsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatsFragment newInstance(String param1, String param2) {
-        ChatsFragment fragment = new ChatsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        view =  inflater.inflate(R.layout.fragment_chats, container, false);
+        recyclerViewChats = view.findViewById(R.id.fragment_chats_recyclerViewChats);
+        chatsProvider = new ChatsProvider();
+        authProvider = new AuthProvider();
+        //para que nuestros elementos (fragmentos) se posicionen uno debajo del otro
+        LinearLayoutManager linearLayoutmanager = new LinearLayoutManager(getContext());
+        recyclerViewChats.setLayoutManager(linearLayoutmanager);
+        return view;
+
+    }
+
+    //para poder usar Firebase Ui (permite listar los datos(colecciones) de cloud firebase) es necesario sobreescribir estos metodos propios de el
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //hacer la consulta a la bd para obtener las colecciones de chats
+        Query qr = chatsProvider.getCurrentUserChats(authProvider.getCurrentUserID());
+        // se usa RecyclerView para poder listar las colecciones y se necesita especificar el modelo a usar en este caso seria Chat
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<Chat>().setQuery(qr, Chat.class).build();
+        chatsAdapter = new ChatsAdapter(options,getContext());//creamos el adaptador para poder mostrar los componentes del xml
+        recyclerViewChats.setAdapter(chatsAdapter);
+        //escuche en tiempo real los cambios en la BD
+        chatsAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //deje de escuchar los cambios en la bd
+        chatsAdapter.stopListening();
+    }
+
+    //cuando la actividad se cierra
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (chatsAdapter.getListener()!=null){
+            chatsAdapter.getListener().remove();
+        }
     }
 }
